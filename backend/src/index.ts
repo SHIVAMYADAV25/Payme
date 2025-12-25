@@ -1,21 +1,15 @@
-import express from "express"
+import "dotenv/config";
 import { connectDB } from "./db/db.js";
+import {app} from "./app.js"
 
-const app = express();
 
-app.post("/signup",(req,res)=>{
-    let {username,password} = req.body;
 
-    if (!username && !password){
-        res.status(400).json({
-            "Message" : "please enter the required fields"
-        })
-    }
-    
-})
 
 connectDB()
-
+.then(() => {
 app.listen(3000,()=>{
     console.log("server is running on port 3000")
+})
+}).catch((err) =>{
+    console.log("MONGO db connection failed !! ",err)
 })

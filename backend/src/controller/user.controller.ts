@@ -45,6 +45,7 @@ const signup = async (req : Request,res: Response) => {
 
     return res.status(200).json({
         message : "signup successful",
+        "token" : token
     })
 }
 
@@ -84,5 +85,11 @@ const signin = async (req: Request,res:Response) => {
 
     return res.status(200).json({
         message : "signin successful",
+        "token" : token
     })
+}
+
+export { 
+    signin,
+    signup
 }

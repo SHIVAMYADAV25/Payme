@@ -47,3 +47,42 @@ const signup = async (req : Request,res: Response) => {
         message : "signup successful",
     })
 }
+
+
+const signin = async (req: Request,res:Response) => {
+    let {username,password} = req.body;
+
+    if (!username || !password){
+        res.status(400).json({
+            "Message" : "please enter the required fields"
+        })
+    }
+
+    const User = await user.findOne({username});
+
+    if(!User){
+        return res.status(402).json({
+            message : "Username already exist"
+        })
+    }
+
+    const isValid = await bcrypt.compare(password,User?.password);
+
+    if(!isValid){
+        return res.status(401).json({
+            message : "Invalid credentials"
+        })
+    }
+
+    const token = jwt.sign(
+            {id : User?._id},
+            process.env.ACCESS_TOKEN_SECRET as string,
+            {expiresIn : "1d"}
+        )
+
+    res.cookie("accesstoken" , token , COOKIE_OPTIONS);
+
+    return res.status(200).json({
+        message : "signin successful",
+    })
+}

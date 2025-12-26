@@ -131,5 +131,7 @@ const bulk = async (req:Request,res : Response) => {
 
 export { 
     signin,
-    signup
+    signup,
+    bulk,
+    updateUser
 }

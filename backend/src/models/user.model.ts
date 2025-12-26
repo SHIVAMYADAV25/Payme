@@ -13,10 +13,6 @@ const UserSchema = Schema.create({
         required: true,
         trim : true,
         index :true
-    },
-    amount : {
-        type : Number,
-        default:1000,
     }
 }, {
     timestamps : true

@@ -10,8 +10,10 @@ const router : ExpressRouter= Router();
 router.route("/signup").post(signup);
 router.route("/signin").post(signin);
 
-router.route("/me").get(verifyJWT,(req : Request,res : Response)=>{
-    return res.status(200).json({ user: req.user })
-})
+// router.route("/me").get(verifyJWT,(req : Request,res : Response)=>{
+//     return res.status(200).json({ user: req.user })
+// })
+
+
 
 export default router

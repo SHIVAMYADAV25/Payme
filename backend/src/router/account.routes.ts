@@ -7,6 +7,4 @@ const router : ExpressRouter = Router();
 router.route("/balance").get(verifyJWT,balance);
 router.route("/Transfer").post(verifyJWT,transfer);
 
-export {
-    router
-}
+export default router

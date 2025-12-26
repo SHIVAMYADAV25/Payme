@@ -68,3 +68,8 @@ const transfer = async (req:Request,res:Response) => {
         session.endSession();
     }
 }
+
+export { 
+    transfer,
+    balance
+}

@@ -1,7 +1,8 @@
-import  { user }  from "../models/user.model.js";
+import  {user}  from "../models/user.model.js";
 import type { Request , Response } from "express";
 import  jwt  from "jsonwebtoken";
 import bcrypt from 'bcrypt';
+import { Account } from "../models/account.model.js";
 
 const COOKIE_OPTIONS = {
     httpOnly : true,
@@ -22,7 +23,7 @@ const signup = async (req : Request,res: Response) => {
         $or : [{username}]
     })
 
-    if(!user){
+    if(!User){
         return res.status(402).json({
             message : "Username already exist"
         })
@@ -33,6 +34,13 @@ const signup = async (req : Request,res: Response) => {
     const NewUser = await user.create({
         username,
         password : hashedPass,
+    })
+
+
+
+    const AccountCreated = await Account.create({
+        userId : NewUser._id,
+        balance : 1 + Math.random() * 1000
     })
 
     const token = jwt.sign(
@@ -86,6 +94,35 @@ const signin = async (req: Request,res:Response) => {
     return res.status(200).json({
         message : "signin successful",
         "token" : token
+    })
+}
+
+const updateUser = async (req:Request,res:Response) => {
+    await user.updateOne(
+        req.body,{
+        id : req.user
+    })
+
+    res.json({
+        message : "Upadted successfully"
+    })
+}
+
+const bulk = async (req:Request,res : Response) => {
+    const filter = typeof req.query.filter === "string" ? req.query.filter : "";
+
+    const Users = await user.find({
+        $or : [{
+            username : {
+                "$regex" : filter
+            }
+        }]
+    })
+
+    res.json({
+        "user" : Users.map(user => ({
+            username: user.username
+        }))
     })
 }
 

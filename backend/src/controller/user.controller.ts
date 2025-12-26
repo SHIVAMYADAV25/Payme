@@ -108,6 +108,9 @@ const updateUser = async (req:Request,res:Response) => {
     })
 }
 
+// https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
+// https://stackoverflow.com/questions/3305561/how-to-query-mongodb-with-like
+
 const bulk = async (req:Request,res : Response) => {
     const filter = typeof req.query.filter === "string" ? req.query.filter : "";
 
